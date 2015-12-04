@@ -1,5 +1,5 @@
 cc_test(
 	name = "statemachine",
-	deps = ["//muan:core", "@gtest//:main"],
+	deps = ["//muan:statemachine", "@gtest//:main"],
 	srcs = ["state_machine_test.cpp"]
 )
