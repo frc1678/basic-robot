@@ -6,3 +6,11 @@ cc_library(
   hdrs = glob(["logging/**/*.h"]),
   includes = ["logging"]
 )
+
+cc_library(
+  name = "multithreading",
+  srcs = glob(["multithreading/**/*.cpp"]),
+  hdrs = glob(["multithreading/**/*.h"]),
+  includes = ["multithreading"],
+  deps = ["//unitscpp"]
+)
