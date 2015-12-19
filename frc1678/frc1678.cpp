@@ -1,9 +1,9 @@
 #include <WPILib.h>
 
 class CitrusRobot : public IterativeRobot {
-  RobotDrive* drive;
-  Joystick* j1;
-  Joystick* j2;
+  RobotDrive *drive;
+  Joystick *j1;
+  Joystick *j2;
 
  public:
   CitrusRobot() {

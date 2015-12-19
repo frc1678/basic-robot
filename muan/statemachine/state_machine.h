@@ -9,7 +9,7 @@ class StateMachine {
   void update();
 
  protected:
-  void add_state(State& to_add);
+  void add_state(State &to_add);
 
  private:
   std::map<std::string, State> _states;

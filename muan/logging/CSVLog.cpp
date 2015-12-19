@@ -65,10 +65,10 @@ std::string CSVLog::GetExtension() const { return "csv"; }
  * Save the log to the disk.
  */
 void CSVLog::WriteToLog(std::string log, std::string key, std::string value) {
-  ((CSVLog*)LogManager::GetInstance()->GetLog(key))->Write(key, value);
+  ((CSVLog *)LogManager::GetInstance()->GetLog(key))->Write(key, value);
 }
 
-std::string& CSVLog::operator[](std::string key) {
+std::string &CSVLog::operator[](std::string key) {
   for (auto it = entries.begin(); it != entries.end(); it++) {
     if (it->first == key) {
       return it->second;

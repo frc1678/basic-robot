@@ -35,7 +35,7 @@ Log::~Log() { file.close(); }
  */
 std::string Log::GetDateString() {
   time_t rawtime;
-  tm* timeinfo;
+  tm *timeinfo;
   char buffer[80];
   time(&rawtime);
   timeinfo = localtime(&rawtime);
@@ -48,7 +48,7 @@ std::string Log::GetDateString() {
  */
 std::string Log::GetTimeString() {
   time_t rawtime;
-  tm* timeinfo;
+  tm *timeinfo;
   char buffer[80];
   time(&rawtime);
   timeinfo = localtime(&rawtime);

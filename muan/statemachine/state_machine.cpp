@@ -29,4 +29,4 @@ void StateMachine::update() {
   }
 }
 
-void StateMachine::add_state(State& to_add) { _states[to_add.name()] = to_add; }
+void StateMachine::add_state(State &to_add) { _states[to_add.name()] = to_add; }

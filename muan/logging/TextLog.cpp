@@ -34,7 +34,7 @@ void TextLog::Write(std::string message, std::string category,
 
 void TextLog::WriteToLog(std::string log, std::string message,
                          std::string category, std::string codeStamp) {
-  ((TextLog*)LogManager::GetInstance()->GetLog(log))
+  ((TextLog *)LogManager::GetInstance()->GetLog(log))
       ->Write(message, category, codeStamp);
 }
 

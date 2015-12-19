@@ -13,10 +13,10 @@
 #include "Log.h"
 
 class LogManager {
-  static LogManager* instance;
+  static LogManager *instance;
 
   std::thread fileWriter;
-  std::map<std::string, Log*> logs;
+  std::map<std::string, Log *> logs;
   std::mutex logsMutex;
   std::thread runThread;
   std::atomic<bool> running;
@@ -24,9 +24,9 @@ class LogManager {
 
  public:
   LogManager();
-  static LogManager* GetInstance();
-  void AddLog(std::string key, Log* log);
-  Log* GetLog(std::string key);
+  static LogManager *GetInstance();
+  void AddLog(std::string key, Log *log);
+  Log *GetLog(std::string key);
   void Stop();
   virtual ~LogManager();
 };

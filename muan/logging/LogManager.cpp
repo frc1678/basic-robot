@@ -7,7 +7,7 @@
 
 #include "LogManager.h"
 
-LogManager* LogManager::instance = new LogManager();
+LogManager *LogManager::instance = new LogManager();
 
 LogManager::LogManager() {
   std::lock_guard<std::mutex> lock(logsMutex);
@@ -28,16 +28,16 @@ void LogManager::FlushLogs() {
   }
 }
 
-LogManager* LogManager::GetInstance() { return instance; }
+LogManager *LogManager::GetInstance() { return instance; }
 
-void LogManager::AddLog(std::string key, Log* log) {
+void LogManager::AddLog(std::string key, Log *log) {
   std::lock_guard<std::mutex> lock(logsMutex);
   if (logs.find(key) == logs.end()) {
     logs[key] = log;
   }
 }
 
-Log* LogManager::GetLog(std::string key) {
+Log *LogManager::GetLog(std::string key) {
   std::lock_guard<std::mutex> lock(logsMutex);
   if (logs.find(key) != logs.end()) {
     return logs[key];

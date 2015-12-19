@@ -19,7 +19,7 @@ class CSVLog : public Log {
   CSVLog(std::string filename, std::vector<std::string> keys);
   virtual void Write(std::string key, std::string value);
   virtual void EndLine();
-  virtual std::string& operator[](std::string key);
+  virtual std::string &operator[](std::string key);
 
   virtual void FlushToFile() override;
   virtual std::string GetExtension() const override;
