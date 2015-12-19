@@ -3,15 +3,15 @@
 #include "state.h"
 
 class StateMachine {
-public:
+ public:
   StateMachine(std::string initial_state);
   void start();
   void update();
 
-protected:
+ protected:
   void add_state(State& to_add);
 
-private:
+ private:
   std::map<std::string, State> _states;
   std::string _first, _current;
 };

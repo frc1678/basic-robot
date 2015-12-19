@@ -1,16 +1,13 @@
 #include "state_machine.h"
 #include <iostream>
 
-StateMachine::StateMachine(std::string initial_state) : _first(initial_state) {
-
-}
+StateMachine::StateMachine(std::string initial_state) : _first(initial_state) {}
 
 void StateMachine::start() {
   _current = _first;
   if (_states.count(_current)) {
     _states[_current].init();
-  }
-  else {
+  } else {
     std::cout << "No state found" << std::endl;
     // TODO(Kyle) Handle the case where the state does not exist
   }
@@ -26,13 +23,10 @@ void StateMachine::update() {
         _states[_current].init();
       }
     }
-  }
-  else {
+  } else {
     std::cout << "No state found" << std::endl;
     // TODO(Kyle) Handle the case where the state does not exist
   }
 }
 
-void StateMachine::add_state(State& to_add) {
-  _states[to_add.name()] = to_add;
-}
+void StateMachine::add_state(State& to_add) { _states[to_add.name()] = to_add; }
