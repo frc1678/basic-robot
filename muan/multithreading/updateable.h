@@ -3,14 +3,14 @@
 #include <thread>
 
 class Updateable {
-public:
+ public:
   Updateable();
   ~Updateable();
   virtual void update(Time dt) = 0;
   void start();
   void end();
 
-private:
+ private:
   std::thread _main;
   std::atomic<bool> _running;
 };
