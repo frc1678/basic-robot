@@ -1,1 +1,1 @@
-clang - format - i $(find | grep "\(.cpp\|.h\)\$")
+clang-format -i $(find | grep "\(\.cpp\|\.h\)\$")
