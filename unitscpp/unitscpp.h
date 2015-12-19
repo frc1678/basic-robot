@@ -296,5 +296,6 @@ const Velocity maxLowRobotSpeed = 5 * ft / s;
 const AngularVelocity maxHighRobotAngularVelocity =
     2 * maxHighRobotSpeed / (robotWidth / 2) * rad;
 const Unitless none = 1;
+const Frequency hz = 1 / s;
 
 #endif  //#ifndef unitscpp_h

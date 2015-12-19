@@ -4,11 +4,12 @@
 
 class Updateable {
  public:
-  Updateable();
+  Updateable(Frequency tick_rate);
   ~Updateable();
   virtual void update(Time dt) = 0;
   void start();
-  void end();
+  void stop();
+  void join();
 
  private:
   std::thread _main;
