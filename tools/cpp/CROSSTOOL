@@ -162,8 +162,6 @@ toolchain {
   # Conservative choice; -D_FORTIFY_SOURCE=2 may be unsafe in some cases.
   # We need to undef it before redefining it as some distributions now have
   # it enabled by default.
-  compiler_flag: "-U_FORTIFY_SOURCE"
-  compiler_flag: "-D_FORTIFY_SOURCE=1"
   compiler_flag: "-fstack-protector"
   compiler_flag: "-fPIE"
   linker_flag: "-pie"
@@ -202,6 +200,10 @@ toolchain {
   }
   compilation_mode_flags {
     mode: OPT
+    
+    # _FORTIFY_SOURCE can only be used in optimized builds
+    compiler_flag: "-U_FORTIFY_SOURCE"
+    compiler_flag: "-D_FORTIFY_SOURCE=1"
 
     # No debug symbols.
     # Maybe we should enable https://gcc.gnu.org/wiki/DebugFission for opt or
