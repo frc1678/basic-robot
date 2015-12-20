@@ -21,3 +21,8 @@ cc_library(
   includes = ["multithreading"],
   deps = ["//unitscpp"]
 )
+
+cc_library(
+  name = "muan",
+  srcs = [":logging", ":multithreading", ":statemachine"]
+)

@@ -269,6 +269,7 @@ typedef Units<2, -2, 1, 0> Energy;
 typedef Units<0, -1, 0, 0> Frequency;
 typedef Units<2, -3, 1, -1> Voltage;
 typedef Units<0, 0, 0, 0> Unitless;
+typedef Units<2, -3, 1, -2> Resistance;
 
 // Unit constants
 const double pi = 3.14159265358;
@@ -289,6 +290,7 @@ const Time ms = 1e-3 * s;
 const Time hour = 3600 * s;
 const Current A = 1;
 const Voltage V = kg * m * m / (A * s * s * s);
+const Resistance ohm = V / A;
 const Length click = pi * 4 * in / 360;
 const Length robotWidth = 1.5 * ft;
 const Velocity maxHighRobotSpeed = 15 * ft / s;
@@ -297,5 +299,7 @@ const AngularVelocity maxHighRobotAngularVelocity =
     2 * maxHighRobotSpeed / (robotWidth / 2) * rad;
 const Unitless none = 1;
 const Frequency hz = 1 / s;
+const Force N = 1;
+const Mass lb_mass = .454 * kg;
 
 #endif  //#ifndef unitscpp_h
