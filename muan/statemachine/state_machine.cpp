@@ -1,26 +1,34 @@
+/*
+ * state_machine.cpp
+ *
+ *  Created on: Dec 7, 2015
+ *  Copyright 2015 Citrus Circuits
+ *      Author: Kyle Stachowicz
+ */
+
 #include "state_machine.h"
+#include <string>
 #include <iostream>
 
-StateMachine::StateMachine(std::string initial_state) : _first(initial_state) {}
+StateMachine::StateMachine(std::string initial_state) : first_(initial_state) {}
 
-void StateMachine::start() {
-  _current = _first;
-  if (_states.count(_current)) {
-    _states[_current].init();
+void StateMachine::Start() {
+  current_ = first_;
+  if (states_.count(current_)) {
+    states_[current_].Init();
   } else {
     std::cout << "No state found" << std::endl;
     // TODO(Kyle) Handle the case where the state does not exist
   }
 }
 
-void StateMachine::update() {
-  if (_states.count(_current)) {
-    std::string next = _states[_current].update();
-    // std::cout << "State: " << _states[_current].name() << std::endl;
+void StateMachine::Update() {
+  if (states_.count(current_)) {
+    std::string next = states_[current_].Update();
     if (next != "") {
-      if (_states.count(next)) {
-        _current = next;
-        _states[_current].init();
+      if (states_.count(next)) {
+        current_ = next;
+        states_[current_].Init();
       }
     }
   } else {
@@ -29,4 +37,4 @@ void StateMachine::update() {
   }
 }
 
-void StateMachine::add_state(State &to_add) { _states[to_add.name()] = to_add; }
+void StateMachine::AddState(State &to_add) { states_[to_add.Name()] = to_add; }
