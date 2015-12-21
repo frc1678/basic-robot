@@ -1,17 +1,34 @@
-#include "unitscpp/unitscpp.h"
+/*
+ * updateable.h
+ *
+ *  Created on: Dec 18, 2015
+ *  Copyright 2015 Citrus Circuits
+ *      Author: Kyle Stachowicz
+ */
+
+#ifndef MUAN_MULTITHREADING_UPDATEABLE_H_
+#define MUAN_MULTITHREADING_UPDATEABLE_H_
+
 #include <atomic>
 #include <thread>
+#include "unitscpp/unitscpp.h"
 
+/*
+ * A base class for an object that runs in a separate thread at a constant rate.
+ * To use, implement the Update(Time dt) method.
+ */
 class Updateable {
  public:
-  Updateable(Frequency tick_rate);
+  explicit Updateable(Frequency tick_rate);
   ~Updateable();
-  virtual void update(Time dt) = 0;
-  void start();
-  void stop();
-  void join();
+  virtual void Update(Time dt) = 0;
+  void Start();
+  void Stop();
+  void Join();
 
  private:
-  std::thread _main;
-  std::atomic<bool> _running;
+  std::thread main_;
+  std::atomic<bool> running_;
 };
+
+#endif  // MUAN_MULTITHREADING_UPDATEABLE_H_

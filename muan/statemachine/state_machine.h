@@ -1,17 +1,30 @@
+/*
+ * state_machine.h
+ *
+ *  Created on: Dec 7, 2015
+ *  Copyright 2015 Citrus Circuits
+ *      Author: Kyle Stachowicz
+ */
+
+#ifndef MUAN_STATEMACHINE_STATE_MACHINE_H_
+#define MUAN_STATEMACHINE_STATE_MACHINE_H_
+
 #include <string>
 #include <map>
 #include "state.h"
 
 class StateMachine {
  public:
-  StateMachine(std::string initial_state);
-  void start();
-  void update();
+  explicit StateMachine(std::string initial_state);
+  void Start();
+  void Update();
 
  protected:
-  void add_state(State& to_add);
+  void AddState(State &to_add);
 
  private:
-  std::map<std::string, State> _states;
-  std::string _first, _current;
+  std::map<std::string, State> states_;
+  std::string first_, current_;
 };
+
+#endif  // MUAN_STATEMACHINE_STATE_MACHINE_H_

@@ -1,8 +1,17 @@
+/*
+ * state.cpp
+ *
+ *  Created on: Dec 7, 2015
+ *  Copyright 2015 Citrus Circuits
+ *      Author: Kyle Stachowicz
+ */
+
 #include "state.h"
+#include <string>
 
 State::State(std::string name, std::function<void()> init_func,
              std::function<std::string()> update_func)
-    : _name(name), _init_func(init_func), _update_func(update_func) {}
+    : name_(name), init_func_(init_func), update_func_(update_func) {}
 
 State::State(std::string name, std::function<std::string()> update_func)
     : State(name, []() {}, update_func) {}
@@ -14,8 +23,8 @@ State::State() : State("Unnamed state") {}
 
 State::~State() {}
 
-void State::init() { _init_func(); }
+void State::Init() { init_func_(); }
 
-std::string State::update() { return _update_func(); }
+std::string State::Update() { return update_func_(); }
 
-std::string State::name() { return _name; }
+std::string State::Name() { return name_; }
