@@ -1,37 +1,35 @@
 #include "drive_subsystem.h"
 
 DriveSubsystem::DriveSubsystem() : Updateable(100 * hz) {
-  _drivetrain = new RobotDrive(2, 1);
-  enc_left = new Encoder(10, 11);
-  enc_right = new Encoder(12, 13);
-  current_mode = VELOCITY;
+  drivetrain_ = new RobotDrive(2, 1);
+  enc_left_ = new Encoder(10, 11);
+  enc_right_ = new Encoder(12, 13);
+  current_mode_ = VELOCITY;
 }
 
 DriveSubsystem::~DriveSubsystem() {}
 
-void DriveSubsystem::update(Time dt) {
-  Length current_dist = enc_left->Get() * click;
-  if (current_mode == DISTANCE) {
-    if (current_dist < target_dist) {
-      _drivetrain->TankDrive(1.0, 1.0);
-    } else {
-      current_mode = VELOCITY;
-    }
-  } else if (current_mode == VELOCITY) {
+void DriveSubsystem::Update(Time dt) {
+  Length current_dist = enc_left_->Get() * click;
+  if (current_mode_ == DISTANCE) {
+    Voltage v =
+        controller_.Update(enc_left_->Get() * click, enc_right_->Get() * click);
+    drivetrain_->TankDrive(v.to(12 * V), v.to(12 * V));
+  } else if (current_mode_ == VELOCITY) {
     Units<1, -2, 1, -1> K_v = 12 * V / maxHighRobotSpeed;
-    _drivetrain->TankDrive((K_v * target_velocity_right).to(12 * V),
-                           (K_v * target_velocity_left).to(12 * V));
+    drivetrain_->TankDrive((K_v * target_velocity_right_).to(12 * V),
+                           (K_v * target_velocity_left_).to(12 * V));
   }
 }
 
-void DriveSubsystem::drive_tank(Velocity right, Velocity left) {
-  target_velocity_right = right;
-  target_velocity_left = left;
+void DriveSubsystem::DriveTank(Velocity right, Velocity left) {
+  target_velocity_right_ = right;
+  target_velocity_left_ = left;
 }
 
-void DriveSubsystem::drive_distance(Length dist) {
-  target_dist = dist;
-  current_mode = DISTANCE;
+void DriveSubsystem::DriveDistance(Length dist) {
+  target_dist_ = dist;
+  current_mode_ = DISTANCE;
 }
 
-bool DriveSubsystem::is_done() { return current_mode == VELOCITY; }
+bool DriveSubsystem::IsDone() { return current_mode_ == VELOCITY; }

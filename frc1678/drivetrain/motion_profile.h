@@ -18,9 +18,9 @@ class MotionProfile {
       AccelerationU;
   MotionProfile() {}
   virtual ~MotionProfile() {}
-  virtual VelocityU calculate_speed(Time time) = 0;
-  virtual DistanceU calculate_distance(Time time) = 0;
-  virtual bool finished(Time time) = 0;
+  virtual VelocityU CalculateSpeed(Time time) = 0;
+  virtual DistanceU CalculateDistance(Time time) = 0;
+  virtual bool IsDone(Time time) = 0;
 };
 
 #endif /* SRC_ROBOTCODE_MOTIONPROFILE_H_ */

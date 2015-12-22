@@ -23,16 +23,16 @@ DrivePlant::DrivePlant() {
 
 DrivePlant::~DrivePlant() {}
 
-void DrivePlant::update(Voltage left, Voltage right) {
+void DrivePlant::Update(Voltage left, Voltage right) {
   Eigen::Vector2d u;
   u << right.to(V), left.to(V);
-  _x += (A * _x + B * u) * .05;
+  x_ += (A * x_ + B * u) * .05;
 }
 
-Angle DrivePlant::angle() { return _x(0); }
+Angle DrivePlant::Angle() { return x_(0); }
 
-AngularVelocity DrivePlant::angular_velocity() { return _x(1); }
+AngularVelocity DrivePlant::AngularVelocity() { return x_(1); }
 
-Length DrivePlant::distance() { return _x(2); }
+Length DrivePlant::Distance() { return x_(2); }
 
-Velocity DrivePlant::forward_velocity() { return _x(3); }
+Velocity DrivePlant::ForwardVelocity() { return x_(3); }

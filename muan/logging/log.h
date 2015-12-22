@@ -37,7 +37,7 @@ class Log {
   virtual void FlushToFile() = 0;
   virtual std::string GetExtension() const = 0;
   virtual ~Log();
- 
+
  protected:
   static std::string GetDateString();
   static std::string GetTimeString();

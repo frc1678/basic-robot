@@ -9,7 +9,7 @@ AutoStateMachine::AutoStateMachine(RobotSubsystems& subsystems)
   State drive(
       "drive",
       [&, this]() {
-        subsystems.drive.drive_distance(15 * ft);
+        subsystems.drive.DriveDistance(15 * ft);
         /* subsystems.claw.move_to(.2*rad); */
       },
       [&]() {
@@ -31,8 +31,8 @@ AutoStateMachine::AutoStateMachine(RobotSubsystems& subsystems)
 
   State done("done", []() { return ""; });
 
-  add_state(init);
-  add_state(drive);
-  add_state(score);
-  add_state(done);
+  AddState(init);
+  AddState(drive);
+  AddState(score);
+  AddState(done);
 }

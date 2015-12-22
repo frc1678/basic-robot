@@ -17,66 +17,66 @@ class TrapezoidalMotionProfile : public MotionProfile<DistanceU> {
       VelocityU;
   typedef Units<DistanceU::u1, DistanceU::u2 - 2, DistanceU::u3, DistanceU::u4>
       AccelerationU;
-  Time _accel_time;
-  Time _total_time;
-  Time _deccel_time;
-  VelocityU _max_speed;
-  AccelerationU _max_acceleration;
+  Time accel_time_;
+  Time total_time_;
+  Time deccel_time_;
+  VelocityU max_speed_;
+  AccelerationU max_acceleration_;
 
  public:
   TrapezoidalMotionProfile<DistanceU>(DistanceU distance, VelocityU max_speed,
                                       AccelerationU max_acceleration) {
-    _accel_time = max_speed / max_acceleration;
-    _deccel_time = max_speed / max_acceleration;
-    _max_speed = max_speed;
-    _max_acceleration = max_acceleration;
+    accel_time_ = max_speed / max_acceleration;
+    deccel_time_ = max_speed / max_acceleration;
+    max_speed_ = max_speed;
+    max_acceleration_ = max_acceleration;
 
-    if (distance > (_accel_time + _deccel_time) * _max_speed / 2) {
-      _total_time = _accel_time + _deccel_time +
-                    (distance - _max_speed * (_deccel_time + _accel_time) / 2) /
-                        _max_speed;
+    if (distance > (accel_time_ + deccel_time_) * max_speed_ / 2) {
+      total_time_ = accel_time_ + deccel_time_ +
+                    (distance - max_speed_ * (deccel_time_ + accel_time_) / 2) /
+                        max_speed_;
     } else {
       DistanceU accel_dist = distance / 2;
 
-      _accel_time = std::sqrt((2 * accel_dist / max_acceleration)()) * s;
-      _deccel_time = _accel_time;
-      _max_speed = _accel_time * _max_acceleration;
-      _total_time = _accel_time + _deccel_time;
+      accel_time_ = std::sqrt((2 * accel_dist / max_acceleration)()) * s;
+      deccel_time_ = accel_time_;
+      max_speed_ = accel_time_ * max_acceleration_;
+      total_time_ = accel_time_ + deccel_time_;
     }
   }
   virtual ~TrapezoidalMotionProfile() {}
-  virtual VelocityU calculate_speed(Time time) override {
+  virtual VelocityU CalculateSpeed(Time time) override {
     VelocityU speed = 0;
 
-    if (time <= _accel_time) {
-      speed = _max_speed * (time / _accel_time);
-    } else if (time <= _total_time - _deccel_time) {
-      speed = _max_speed;
-    } else if (time <= _total_time) {
-      speed = _max_speed * ((_total_time - time) / _deccel_time);
+    if (time <= accel_time_) {
+      speed = max_speed_ * (time / accel_time_);
+    } else if (time <= total_time_ - deccel_time_) {
+      speed = max_speed_;
+    } else if (time <= total_time_) {
+      speed = max_speed_ * ((total_time_ - time) / deccel_time_);
     }
 
     return speed;
   }
-  virtual DistanceU calculate_distance(Time time) override {
-    DistanceU accel_dist = _max_speed * _accel_time / 2;
+  virtual DistanceU CalculateDistance(Time time) override {
+    DistanceU accel_dist = max_speed_ * accel_time_ / 2;
     DistanceU full_dist =
-        _max_speed * (_total_time - _deccel_time - _accel_time);
+        max_speed_ * (total_time_ - deccel_time_ - accel_time_);
 
-    DistanceU distance = accel_dist + full_dist + _deccel_time * _max_speed / 2;
+    DistanceU distance = accel_dist + full_dist + deccel_time_ * max_speed_ / 2;
 
-    if (time <= _accel_time) {
-      distance = time * time * _max_speed / _accel_time / 2;
-    } else if (time <= _total_time - _deccel_time) {
-      distance = (time - _accel_time / 2) * _max_speed;
-    } else if (time <= _total_time) {
+    if (time <= accel_time_) {
+      distance = time * time * max_speed_ / accel_time_ / 2;
+    } else if (time <= total_time_ - deccel_time_) {
+      distance = (time - accel_time_ / 2) * max_speed_;
+    } else if (time <= total_time_) {
       distance = accel_dist + full_dist +
-                 (_deccel_time + time - _total_time) * _max_speed / 2;
+                 (deccel_time_ + time - total_time_) * max_speed_ / 2;
     }
 
     return distance;
   }
-  bool finished(Time time) override { return time > _total_time; }
+  bool IsDone(Time time) override { return time > total_time_; }
 };
 
 #endif /* SRC_ROBOTCODE_TRAPEZOIDALMOTIONPROFILE_H_ */

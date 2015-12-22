@@ -7,26 +7,26 @@
 class CitrusRobot : public IterativeRobot {
  public:
   CitrusRobot() {
-    j1 = new Joystick(0);
-    j2 = new Joystick(1);
-    _auto = std::unique_ptr<AutoStateMachine>(new AutoStateMachine(subsystems));
-    subsystems.drive.start();
+    j1_ = new Joystick(0);
+    j2_ = new Joystick(1);
+    auto_ =
+        std::unique_ptr<AutoStateMachine>(new AutoStateMachine(subsystems_));
+    subsystems_.drive.Start();
   }
-  void AutonomousInit() { _auto->start(); }
-  void AutonomousPeriodic() { _auto->update(); }
+  void AutonomousInit() { auto_->Start(); }
+  void AutonomousPeriodic() { auto_->Update(); }
   void RobotInit() {}
   void TeleopInit() {}
   void TeleopPeriodic() {
-    subsystems.drive.drive_tank(j1->GetY() * 12 * ft / s,
-                                j2->GetY() * 12 * ft / s);
+    subsystems_.drive.DriveTank(j1_->GetY() * 12 * ft / s,
+                                j2_->GetY() * 12 * ft / s);
   }
-  ~CitrusRobot() { subsystems.drive.stop(); }
-
-  RobotSubsystems subsystems;
+  ~CitrusRobot() { subsystems_.drive.Stop(); }
 
  private:
-  Joystick *j1, *j2;
-  std::unique_ptr<AutoStateMachine> _auto;
+  Joystick *j1_, *j2_;
+  std::unique_ptr<AutoStateMachine> auto_;
+  RobotSubsystems subsystems_;
 };
 
 START_ROBOT_CLASS(CitrusRobot);

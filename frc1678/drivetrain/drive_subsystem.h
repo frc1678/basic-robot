@@ -3,23 +3,25 @@
 
 #include "muan/multithreading/updateable.h"
 #include <WPILib.h>
+#include "drive_controller.h"
 
 class DriveSubsystem : public Updateable {
  public:
   DriveSubsystem();
   ~DriveSubsystem();
-  virtual void update(Time dt) override;
-  void drive_distance(Length dist);
-  void drive_tank(Velocity right, Velocity left);
-  bool is_done();
+  virtual void Update(Time dt) override;
+  void DriveDistance(Length dist);
+  void DriveTank(Velocity right, Velocity left);
+  bool IsDone();
 
  private:
   enum Mode { VELOCITY, DISTANCE };
-  Mode current_mode;
-  RobotDrive* _drivetrain;
-  Length target_dist;
-  Velocity target_velocity_left, target_velocity_right;
-  Encoder *enc_left, *enc_right;
+  Mode current_mode_;
+  RobotDrive* drivetrain_;
+  DriveController controller_;
+  Length target_dist_;
+  Velocity target_velocity_left_, target_velocity_right_;
+  Encoder *enc_left_, *enc_right_;
 };
 
 #endif
