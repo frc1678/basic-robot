@@ -13,7 +13,7 @@ cc_library(
   srcs = ["drive_controller.cpp"],
   hdrs = ["drive_controller.h"],
   includes = ["./"],
-  deps = ["//muan", "//unitscpp", "@eigen//:main"]
+  deps = ["//muan", "@wpilib//:main", "//unitscpp", "@eigen//:main"]
 )
 
 cc_library(

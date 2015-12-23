@@ -21,7 +21,7 @@ class CitrusRobot : public IterativeRobot {
     subsystems_.drive.DriveTank(j1_->GetY() * 12 * ft / s,
                                 j2_->GetY() * 12 * ft / s);
   }
-  ~CitrusRobot() { subsystems_.drive.Stop(); }
+  ~CitrusRobot() { subsystems_.drive.Join(); }
 
  private:
   Joystick *j1_, *j2_;
