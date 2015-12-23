@@ -35,17 +35,16 @@ class TestStateMachine : public StateMachine {
                }
              });
 
-    add_state(s1);
-    add_state(s2);
-    add_state(s3);
+    AddState(s1);
+    AddState(s2);
+    AddState(s3);
   }
 };
 
 int main() {
   TestStateMachine tsm;
-  tsm.start();
+  tsm.Start();
   for (int k = 0; k < 10000; k++) {
-    tsm.update();
-    // std::cout << "Doing things" << std::endl;
+    tsm.Update();
   }
 }

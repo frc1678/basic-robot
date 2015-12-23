@@ -1,41 +1,42 @@
 #include "gtest/gtest.h"
 #include "muan/multithreading/updateable.h"
+#include "muan/utils/timing_utils.h"
 
 class TestUpdateable : public Updateable, public testing::Test {
  public:
-  TestUpdateable() : Updateable(500 * hz) {}
-  int x() { return _x; }
+  TestUpdateable() : Updateable(100 * hz) {}
 
  protected:
-  void SetUp() {}
-
-  void TearDown() {}
-
-  virtual void update(Time dt) {
-    if (_x > 0) _x--;
+  void SetUp() override { sleep_for(.01 * s); }
+  void TearDown() override {}
+  void Update(Time dt) override {
+    if (x_ > 0) x_--;
   }
-  int _x = 300;
+  int x_ = 100;
 };
 
 TEST_F(TestUpdateable, BasicTest) {
-  start();
-  std::this_thread::sleep_for(std::chrono::milliseconds(700));
-  join();
-  ASSERT_EQ(_x, 0);
+  Start();
+  sleep_for(1.05 * s);
+  Stop();
+  ASSERT_EQ(x_, 0);
 }
 
 TEST_F(TestUpdateable, Stop) {
-  start();
-  std::this_thread::sleep_for(std::chrono::milliseconds(100));
-  join();
-  ASSERT_GT(_x, 0);
+  Start();
+  sleep_for(0.2 * s);
+  Stop();
+  ASSERT_NE(x_, 0);
 }
 
 TEST_F(TestUpdateable, StopsPromptly) {
-  start();
-  // The countdown takes .6 seconds total at 500hz, so it should not finish if
-  // left for .595 seconds - it should finish very quickly when called.
-  std::this_thread::sleep_for(std::chrono::milliseconds(595));
-  join();
-  ASSERT_GT(_x, 0);
+  Start();
+  // The countdown takes one second total at 100hz, so it should not finish if
+  // left for .95 seconds - in other words, it should exit very quickly when
+  // Stop() is called. It runs for .97 seconds because there will always be
+  // a small delay between the calling of Stop() and when the thread actually
+  // exits
+  sleep_for(.95 * s);
+  Stop();
+  ASSERT_NE(x_, 0);
 }

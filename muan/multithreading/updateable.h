@@ -24,11 +24,10 @@ class Updateable {
   virtual void Update(Time dt) = 0;
   void Start();
   void Stop();
-  void Join();
 
  private:
   std::thread main_;
-  std::atomic<bool> running_;
+  volatile std::atomic<bool> running_{false};
 };
 
 #endif  // MUAN_MULTITHREADING_UPDATEABLE_H_

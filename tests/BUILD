@@ -9,3 +9,9 @@ cc_test(
   deps = ["//muan:statemachine", "@gtest//:main"],
   srcs = ["state_machine_test.cpp"]
 )
+
+cc_test(
+  name = "utils",
+  deps = ["//muan:utils", "@gtest//:main"],
+  srcs = ["utils_test.cpp"]
+)

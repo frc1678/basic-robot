@@ -1,6 +1,14 @@
 package(default_visibility = ["//visibility:public"])
 
 cc_library(
+	name = "utils",
+	srcs = glob(["utils/**/*.cpp"]),
+	includes = ["utils"],
+	hdrs = glob(["utils/**/*.h"]),
+  deps = ["//unitscpp"]
+)
+
+cc_library(
 	name = "statemachine",
 	srcs = glob(["statemachine/**/*.cpp"]),
 	includes = ["statemachine"],
@@ -19,5 +27,5 @@ cc_library(
   srcs = glob(["multithreading/**/*.cpp"]),
   hdrs = glob(["multithreading/**/*.h"]),
   includes = ["multithreading"],
-  deps = ["//unitscpp"]
+  deps = ["//unitscpp", ":utils"],
 )
