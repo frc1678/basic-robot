@@ -5,6 +5,7 @@ cc_library(
 	srcs = glob(["utils/**/*.cpp"]),
 	includes = ["utils"],
 	hdrs = glob(["utils/**/*.h"]),
+  deps = ["//unitscpp"]
 )
 
 cc_library(

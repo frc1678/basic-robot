@@ -13,5 +13,5 @@ void Timer::Reset() {
 }
 
 Time Timer::Get() {
-  return start_ - std::chrono::high_resolution_clock::now();
+  return std::chrono::duration_cast<std::chrono::duration<float>>(start_ - std::chrono::high_resolution_clock::now()).count()*s;
 }
