@@ -3,3 +3,4 @@
 #include "simulator/main.h"
 #include "joystick.h"
 #include "robot_drive.h"
+#include "smart_dashboard.h"

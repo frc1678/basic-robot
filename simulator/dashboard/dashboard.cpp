@@ -4,7 +4,7 @@
 #include "simulator/state_change.h"
 #include "simulator/event/event_manager.h"
 
-Dashboard::Dashboard() : window_(sf::VideoMode(400, 400), "dashboard") {
+Dashboard::Dashboard() : window_(sf::VideoMode(600, 400), "dashboard") {
   font.loadFromFile("simulator/arial.ttf");
 }
 
@@ -28,8 +28,7 @@ bool Dashboard::Render() {
       EventManager::GetInstance()->QueueEvent(Event(new StateChangeData(Autonomous)));
     else
       EventManager::GetInstance()->QueueEvent(Event(new StateChangeData(Teleop)));
-  }
-  if (!enabled_ && auto_ && sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
+  } if (!enabled_ && auto_ && sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
     auto_ = false;
   }
   if (!enabled_ && !auto_ && sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
@@ -45,11 +44,25 @@ bool Dashboard::Render() {
 
   sf::Text mode(auto_ ? "Auto" : "Teleop", font);
   mode.setColor(sf::Color(255, 255, 255));
-  mode.setPosition(teleop_position_);
+  mode.setPosition(auto_position_);
 
   window_.clear();
   window_.draw(enable);
   window_.draw(mode);
+
+  // Render the smartdashboard entries
+  for (auto val : SmartDashboard::GetEntries()) {
+    sf::Text entry(val.first + ": " + val.second, font);
+    if (smart_dashboard_positions_.find(val.first) == smart_dashboard_positions_.end()) {
+      smart_dashboard_positions_[val.first] = next_smartdash_pos_;
+      next_smartdash_pos_.y += 50;
+    }
+    entry.setPosition(smart_dashboard_positions_[val.first]);
+    entry.setColor(sf::Color(255, 255, 255));
+    entry.setScale(.5, .5);
+    window_.draw(entry);
+  }
+
   window_.display();
   return true;
 }

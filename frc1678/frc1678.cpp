@@ -9,7 +9,9 @@ class CitrusRobot {
     drive = new RobotDrive(2, 1);
   }
   void RobotInit() {}
-  void AutonomousInit() {}
+  void AutonomousInit() {
+    SmartDashboard::PutNumber("Auto", 1.0);
+  }
   void AutonomousPeriodic() {}
   void DisabledInit() {}
   void DisabledPeriodic() {}
