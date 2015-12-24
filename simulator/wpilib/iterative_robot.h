@@ -1,3 +1,5 @@
+#pragma once
+
 class IterativeRobot {
  public:
   IterativeRobot() {}

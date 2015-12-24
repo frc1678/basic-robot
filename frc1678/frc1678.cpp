@@ -1,6 +1,6 @@
 #include __WPILIB__
 
-class CitrusRobot {
+class CitrusRobot : public IterativeRobot {
   RobotDrive* drive;
   Joystick joy;
 
