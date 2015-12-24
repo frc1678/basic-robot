@@ -1,6 +1,7 @@
 #pragma once
 
 #include "simulator/event/event.h"
+#include "simulator/event/event_manager.h"
 
 class EncoderData : public EventData {
  public:
