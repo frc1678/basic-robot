@@ -13,8 +13,6 @@ class SpeedControllerData : public EventData {
   static int kEventType;
 };
 
-int SpeedControllerData::kEventType = 0xA34CD809;
-
 class SpeedController {
  public:
   SpeedController(int channel) : channel_(channel) {}

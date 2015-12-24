@@ -1,13 +1,12 @@
 #include __WPILIB__
 
 class CitrusRobot {
-  VictorSP *left, *right;
+  RobotDrive* drive;
   Joystick joy;
 
  public:
   CitrusRobot() : joy(0) {
-    right = new VictorSP(2);
-    left = new VictorSP(1);
+    drive = new RobotDrive(2, 1);
   }
   void RobotInit() {}
   void AutonomousInit() {}
@@ -16,8 +15,7 @@ class CitrusRobot {
   void DisabledPeriodic() {}
   void TeleopInit() {}
   void TeleopPeriodic() {
-    right->Set(joy.GetY());
-    left->Set(joy.GetY());
+    drive->TankDrive(-joy.GetY(), joy.GetY());
   }
   ~CitrusRobot() {}
 };

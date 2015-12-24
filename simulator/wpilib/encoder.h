@@ -16,8 +16,6 @@ class EncoderData : public EventData {
   static int kEventType;
 };
 
-int EncoderData::kEventType = 0x24F9AD36;
-
 class Encoder {
  public:
   Encoder(int channel_a, int channel_b) {
