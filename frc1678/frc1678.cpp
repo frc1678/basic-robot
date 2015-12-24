@@ -1,19 +1,24 @@
-#include <WPILib.h>
+#include __WPILIB__
 
-class CitrusRobot : public IterativeRobot {
-  RobotDrive* drive;
-  Joystick* j1;
-  Joystick* j2;
+class CitrusRobot {
+  VictorSP *left, *right;
+  Joystick joy;
 
  public:
-  CitrusRobot() {
-    drive = new RobotDrive(1, 2);
-    j1 = new Joystick(0);
-    j2 = new Joystick(1);
+  CitrusRobot() : joy(0) {
+    right = new VictorSP(2);
+    left = new VictorSP(1);
   }
   void RobotInit() {}
+  void AutonomousInit() {}
+  void AutonomousPeriodic() {}
+  void DisabledInit() {}
+  void DisabledPeriodic() {}
   void TeleopInit() {}
-  void TeleopPeriodic() { drive->TankDrive(j1->GetY(), j2->GetY()); }
+  void TeleopPeriodic() {
+    right->Set(joy.GetY());
+    left->Set(joy.GetY());
+  }
   ~CitrusRobot() {}
 };
 

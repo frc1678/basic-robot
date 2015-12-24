@@ -35,6 +35,7 @@ bool Dashboard::Render() {
   if (!enabled_ && !auto_ && sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
     auto_ = true;
   }
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) return false;
 
   // Render everything
   sf::RectangleShape enable;
