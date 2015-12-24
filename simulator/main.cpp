@@ -5,6 +5,8 @@
 #include "wpilib/WPILib.h"
 #include "simulator/model/drive_plant.h"
 #include "simulator/graphics/renderer.h"
+#include "dashboard/dashboard.h"
+#include "state_change.h"
 
 class StringEventData : public EventData {
  public:
@@ -15,36 +17,65 @@ class StringEventData : public EventData {
 
 template <typename RobotClass>
 int run() {
-  /*em.RegisterListener(0, [](EventData* data) {
-    StringEventData* d2 = (StringEventData*) data;
-    std::cout << d2->text << std::endl;
-  });*/
   Renderer r;
+  Dashboard dash;
   RobotClass code;
-  Encoder enc(1, 2);
-  DrivePlant drive_plant(2, 1, 10, 11, 12, 13);
-  // em.QueueEvent(Event(new StringEventData("test")));
-  EventManager::GetInstance()->QueueEvent(Event(new EncoderData(42, 1, 2)));
-  SpeedController left(2);
-  SpeedController right(1);
-  Encoder left_enc(10, 11);
-  Encoder right_enc(12, 13);
-  EventManager::GetInstance()->RegisterListener(
-      RobotPositionData::kEventType, [](EventData* data) {
-        RobotPositionData* pos_data = (RobotPositionData*)data;
-        std::cout << pos_data->x << ", " << pos_data->y << ", "
-                  << pos_data->theta << std::endl;
-      });
 
-  double t = 0;
-  code.TeleopInit();
-  while (r.Render()) {
-    code.TeleopPeriodic();
-    t += .01;
-    left.Set(.5);
-    right.Set(1);
-    drive_plant.Update(.05);
+  DrivePlant drive_plant(2, 1, 10, 11, 12, 13);
+
+  int current = Disabled;
+  EventManager::GetInstance()->RegisterListener(StateChangeData::kEventType, [&] (EventData* evt) {
+    StateChangeData* sc_data = (StateChangeData*)evt;
+    current = sc_data->state;
+    if (current == States::Autonomous) {
+      code.AutonomousInit();
+    }
+    else if (current == States::Teleop) {
+      code.TeleopInit();
+    }
+    else if (current == States::Disabled) {
+      code.DisabledInit();
+    }
+  });
+
+  code.RobotInit();
+  code.DisabledInit();
+  while (r.Render() && dash.Render()) {
+    if (current == States::Autonomous) {
+      code.AutonomousPeriodic();
+    }
+    else if (current == States::Teleop) {
+      code.TeleopPeriodic();
+    }
+    else if (current == States::Disabled) {
+      code.DisabledPeriodic();
+    }
+
+    drive_plant.Update(.02*s);
     EventManager::GetInstance()->Update();
-    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
   }
 }
+
+#define START_ROBOT_CLASS(RobotClass) int main() { run<RobotClass>(); }
+
+#ifdef __STANDALONE__
+class TestRobotClass {
+  VictorSP *left, *right;
+ public:
+  TestRobotClass() {
+    left = new VictorSP(2);
+    right = new VictorSP(1);
+  }
+  ~TestRobotClass() {}
+  void RobotInit() {}
+  void DisabledInit() {}
+  void DisabledPeriodic() {}
+  void AutonomousInit() {}
+  void AutonomousPeriodic() {}
+  void TeleopInit() {}
+  void TeleopPeriodic() { left->Set(1); right->Set(-1);}
+};
+
+START_ROBOT_CLASS(TestRobotClass);
+#endif

@@ -3,6 +3,9 @@
 #include "simulator/model/robot_position.h"
 
 Renderer::Renderer() : window(sf::VideoMode(800, 600), "citrus-sim") {
+  this->robot_x = 0;
+  this->robot_y = 0;
+  this->robot_theta = 0;
   EventManager::GetInstance()->RegisterListener(
       RobotPositionData::kEventType, [this](EventData* data) {
         RobotPositionData* pos_data = (RobotPositionData*)data;

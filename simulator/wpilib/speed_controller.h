@@ -27,3 +27,8 @@ class SpeedController {
  private:
   int channel_;
 };
+
+typedef SpeedController VictorSP;
+typedef SpeedController Victor;
+typedef SpeedController Talon;
+typedef SpeedController TalonSRX;

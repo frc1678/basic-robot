@@ -5,6 +5,7 @@
 #include "Eigen/Core"
 #include "robot_position.h"
 #include "unitscpp/unitscpp.h"
+#include <iostream>
 
 class DrivePlant {
  public:
@@ -21,9 +22,14 @@ class DrivePlant {
           }
         });
 
-    a_ << 0.0, 1.0, 0.0, 0.0, 0.0, -5.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
-        0.0, -5.0;
-    b_ << 0.0, 0.0, 5.0, -5.0, 0.0, 0.0, 5.0, 5.0;
+    a_ << 0.0, 1.0, 0.0, 0.0,
+          0.0, -1.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 1.0,
+          0.0, 0.0, 0.0, -1.0;
+    b_ << 0.0, 0.0,
+          1.0, -1.0,
+          0.0, 0.0,
+          2.0, 2.0;
     c_ << 1.0, 0.0, 1.0, 0.0, -1.0, 0.0, 1.0, 0.0;
     state_ << 0.0, 0.0, 0.0, 0.0;
     encoder_right_a_ = encoder_right_a;
@@ -31,26 +37,28 @@ class DrivePlant {
     encoder_right_b_ = encoder_right_b;
     encoder_left_b_ = encoder_left_b;
   }
-  void Update(double dt) {
+  void Update(Time dt) {
     Eigen::Vector2d u;
     u << power_right_, power_left_;
-    state_ += (a_ * state_ + b_ * u) * dt;
+    state_ += (a_ * state_ + b_ * u) * dt.to(s);
     Eigen::Vector2d y = c_ * state_;
     EventManager::GetInstance()->QueueEvent(
         Event(new EncoderData(y(0), encoder_right_a_, encoder_right_b_)));
     EventManager::GetInstance()->QueueEvent(
         Event(new EncoderData(y(1), encoder_left_a_, encoder_left_b_)));
 
-    position_x += std::cos(state_(0)) * state_(3) * dt * m;
-    position_y += std::sin(state_(0)) * state_(3) * dt * m;
+    position_x += std::cos(state_(0)) * state_(3) * dt.to(s) * m;
+    position_y += std::sin(state_(0)) * state_(3) * dt.to(s) * m;
     EventManager::GetInstance()->QueueEvent(
         Event(new RobotPositionData(position_x, position_y, state_(0) * rad)));
+    power_left_ = 0;
+    power_right_ = 0;
   }
 
  private:
   int encoder_right_a_, encoder_left_a_, encoder_right_b_, encoder_left_b_;
-  double power_left_, power_right_;
-  Length position_x, position_y;
+  double power_left_ = 0, power_right_ = 0;
+  Length position_x = 0*m, position_y = 0*m;
   Eigen::Vector4d state_;
   Eigen::Matrix<double, 4, 4> a_;
   Eigen::Matrix<double, 4, 2> b_;
