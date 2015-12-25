@@ -6,6 +6,7 @@
 #include <chrono>
 #include "wpilib/WPILib.h"
 #include "simulator/model/drive_plant.h"
+#include "simulator/model/intake.h"
 #include "simulator/graphics/renderer.h"
 #include "dashboard/dashboard.h"
 #include "state_change.h"
@@ -24,6 +25,7 @@ int run() {
   RobotClass code;
 
   DrivePlant drive_plant(2, 1, 10, 11, 12, 13);
+  IntakePlant intake_plant(0, 8);
 
   int current = Disabled;
   EventManager::GetInstance()->RegisterListener(StateChangeData::kEventType, [&] (EventData* evt) {
@@ -54,6 +56,7 @@ int run() {
     }
 
     drive_plant.Update(.02*s);
+    intake_plant.Update(.02*s);
     EventManager::GetInstance()->Update();
     std::this_thread::sleep_for(std::chrono::milliseconds(2));
   }

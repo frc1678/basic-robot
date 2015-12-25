@@ -5,3 +5,4 @@
 #include "robot_drive.h"
 #include "smart_dashboard.h"
 #include "iterative_robot.h"
+#include "solenoid.h"
