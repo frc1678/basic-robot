@@ -30,5 +30,4 @@ class CitrusRobot : public IterativeRobot {
   }
   ~CitrusRobot() {}
 };
-
 START_ROBOT_CLASS(CitrusRobot);
