@@ -23,6 +23,6 @@ new_http_archive(
 new_http_archive(
   name = 'sfml',
   build_file = 'sfml.BUILD',
-  sha256 = 'eaa87f108e62e1a0b988d187a2ea4138c017fbf7d62d857ddd2de25cd51ebc68',
-  url = 'http://mirror1.sfml-dev.org/files/SFML-2.3.2-linux-gcc-64-bit.tar.gz'
+  sha256 = '1dfaca0191f41beb91d6a8d196a34cd88cf8e6bab2486f3b9e39c4c2f0e92373',
+  url = 'https://www.dropbox.com/s/wqpqhzwhlreq9v2/sfml.tar.gz?dl=0&raw=1'
 )

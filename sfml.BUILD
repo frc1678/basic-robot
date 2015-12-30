@@ -6,4 +6,5 @@ cc_library(
         "SFML-2.3.2/include"
     ],
     visibility = ["//visibility:public"],
+    linkstatic = 1
 )

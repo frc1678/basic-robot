@@ -26,5 +26,6 @@ cc_library(
   name = "muan",
   srcs = [":statemachine", ":logging", ":multithreading"],
   hdrs = glob(["**/*.h"]),
-  includes = ["./"]
+  includes = ["./"],
+  linkstatic = 1
 )
